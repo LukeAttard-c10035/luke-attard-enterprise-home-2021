@@ -14,11 +14,14 @@ namespace Domain.Models
 
         public string Message { get; set; } //not required
         public string Password { get; set; } // not requited
+
         [Required]
         public string UserEmail { get; set; }
         [Required]
         public string Email { get; set; }
+        [Required]
         public string FilePath { get; set; }
+        [Required]
         public string Link { get; set; }
 
     }

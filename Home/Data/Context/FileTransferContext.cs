@@ -12,7 +12,7 @@ namespace Data.Context
         public FileTransferContext(DbContextOptions<FileTransferContext> options) : base(options) { }
 
         public DbSet<FileTransfer> FileTransfer { get; set; }
-
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseLazyLoadingProxies();
