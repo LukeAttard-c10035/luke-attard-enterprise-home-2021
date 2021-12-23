@@ -2,14 +2,9 @@
 
 namespace Presentation.Controllers
 {
-    public class FileTransferController : Controller
+    public class FilesController : Controller
     {
         public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Create()
         {
             return View();
         }
