@@ -1,4 +1,6 @@
 using Data.Context;
+using Data.Repositories;
+using Domain.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -38,6 +40,8 @@ namespace Presentation
             services.AddDbContext<FileTransferContext>(options =>
               options.UseSqlServer(
                   Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<IFilesTransferRepository, FilesTransferRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
