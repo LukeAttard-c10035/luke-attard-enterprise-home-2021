@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces;
+﻿using Data.Context;
+using Domain.Interfaces;
 using Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -9,14 +10,21 @@ namespace Data.Repositories
 {
     public class FilesTransferRepository : IFilesTransferRepository
     {
-        public void AddFileTransfer(FileTransfer file)
+        private FileTransferContext context;
+
+        public FilesTransferRepository(FileTransferContext _fileTransferContext)
         {
-            throw new NotImplementedException();
+            context = _fileTransferContext;
+        }
+        public void AddFileTransfer(FileTransfer ft)
+        {
+            context.FileTransfer.Add(ft);
+            context.SaveChanges();
         }
 
         public FileTransfer GetFileTransfer(int id)
         {
-            throw new NotImplementedException();
+            return context.FileTransfer.SingleOrDefault(ft => ft.Id == id);
         }
 
         public void EncryptFileTransfer(FileTransfer f)
@@ -26,7 +34,7 @@ namespace Data.Repositories
 
         public IQueryable<FileTransfer> GetFileTransfers()
         {
-            throw new NotImplementedException();
+            return context.FileTransfer;
         }
 
     }
