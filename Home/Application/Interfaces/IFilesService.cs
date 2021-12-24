@@ -1,16 +1,15 @@
-﻿using System;
+﻿using Application.ViewModels;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Application.Interfaces
 {
     public interface IFilesService
     {
-        /*
-        public IQueryable<FilesTrasferViewModel> GetFileTransfers();
-        public FilesTrasferViewModel GetFileTransfer(int id);
-        public void AddFileTransfer(AddFilesTrasferViewModel model);
-        public void DeleteBlog(int id);*/
-
+        public IQueryable<FileTransferViewModel> GetFileTransfers();
+        public FileTransferViewModel GetFileTransfer(int id);
+        public void AddFileTransfer(AddFileTransferViewModel model);
     }
 }

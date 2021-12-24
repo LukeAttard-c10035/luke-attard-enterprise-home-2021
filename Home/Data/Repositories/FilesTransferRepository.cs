@@ -26,7 +26,7 @@ namespace Data.Repositories
         {
             return context.FileTransfer.SingleOrDefault(ft => ft.Id == id);
         }
-
+        // delete later
         public void EncryptFileTransfer(FileTransfer f)
         {
             throw new NotImplementedException();

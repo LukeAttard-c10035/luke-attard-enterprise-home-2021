@@ -15,7 +15,6 @@ namespace Application.Services
         {
             ftRepo = _ftRepo;
         }
-
         public void AddFileTransfer(AddFileTransferViewModel model)
         {
             ftRepo.AddFileTransfer(new Domain.Models.FileTransfer()
@@ -45,10 +44,8 @@ namespace Application.Services
             return model;
         }
 
-        public IQueryable<FileTransferViewModel> GetBlogs()
+        public IQueryable<FileTransferViewModel> GetFileTransfers()
         {
-            //all this code will be merged into 1 line
-            //when we introduce AutoMapper
             var list = from ft in ftRepo.GetFileTransfers()
                        orderby ft.Id descending
                        select new FileTransferViewModel()
@@ -63,6 +60,5 @@ namespace Application.Services
                        };
             return list;
         }
-
     }
 }
