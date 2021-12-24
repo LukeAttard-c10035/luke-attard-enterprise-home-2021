@@ -1,3 +1,5 @@
+using Application.Interfaces;
+using Application.Services;
 using Data.Context;
 using Data.Repositories;
 using Domain.Interfaces;
@@ -42,6 +44,8 @@ namespace Presentation
                   Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IFilesTransferRepository, FilesTransferRepository>();
+            services.AddScoped<IFilesService, FilesService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
