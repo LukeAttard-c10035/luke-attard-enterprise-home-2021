@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using Application.Services;
 using Application.ViewModels;
+using Ionic.Zip;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -45,10 +46,14 @@ namespace Presentation.Controllers
                     string absolutePath = webHostEnvironment.WebRootPath + "\\files\\" + fileName;
 
                     //3. we save the physical file on the web server
-                    using (FileStream fs = new FileStream(absolutePath, FileMode.CreateNew, FileAccess.Write))
+                    using (ZipFile zip = new ZipFile())
                     {
-                        file.CopyTo(fs);
-                        fs.Close(); //flushes the data into the recipient file
+                        if (!String.IsNullOrEmpty(model.Password))
+                        {
+                            zip.Password = model.Password;
+                        }
+                        zip.AddFile(absolutePath);
+                        zip.Save(fileName);
                     }
                     model.FilePath = @"\files\" + fileName;
                 }
