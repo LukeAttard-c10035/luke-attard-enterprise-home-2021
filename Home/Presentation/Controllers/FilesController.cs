@@ -1,6 +1,6 @@
 ﻿using Application.Interfaces;
+using Application.Services;
 using Application.ViewModels;
-using ICSharpCode.SharpZipLib.Zip;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -39,10 +39,8 @@ namespace Presentation.Controllers
                 //start uploading the file
                 if (file != null)
                 {
-                    
                     //1. to give the file a unique name
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-
                     //2. to read the absolute path where we are going to save the file
                     string absolutePath = webHostEnvironment.WebRootPath + "\\files\\" + fileName;
 
@@ -61,3 +59,9 @@ namespace Presentation.Controllers
         }
     }
 }
+/*
+using (FileStream fs = new FileStream(absolutePath, FileMode.CreateNew, FileAccess.Write))
+{
+    file.CopyTo(fs);
+    fs.Close(); //flushes the data into the recipient file
+}*/
