@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.ViewModels;
+using ICSharpCode.SharpZipLib.Zip;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -25,7 +26,6 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
-
         public IActionResult Create(AddFileTransferViewModel model, IFormFile file)
         {
             if (string.IsNullOrEmpty(model.Title))
@@ -39,6 +39,7 @@ namespace Presentation.Controllers
                 //start uploading the file
                 if (file != null)
                 {
+                    
                     //1. to give the file a unique name
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
 
