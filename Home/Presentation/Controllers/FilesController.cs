@@ -1,17 +1,16 @@
 ﻿using Application.Interfaces;
-using Application.Services;
 using Application.ViewModels;
 using Ionic.Zip;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RestSharp;
+using RestSharp.Authenticators;
 using System;
 using System.IO;
 
 namespace Presentation.Controllers
 {
-    [Authorize]
     public class FilesController : Controller
     {
         private IFilesService filesService;
@@ -26,47 +25,67 @@ namespace Presentation.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
         [HttpPost]
         public IActionResult Create(AddFileTransferViewModel model, IFormFile file)
         {
-            if (string.IsNullOrEmpty(model.Title))
+            try
             {
-                // add the others later
-                ViewBag.Error = "Title should not be left empty";
-                return View();
-            }
-            else
-            {
-                //start uploading the file
-                if (file != null)
+                if (string.IsNullOrEmpty(model.Title))
                 {
-                    //1. to give the file a unique name
-                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                    //2. to read the absolute path where we are going to save the file
-                    string absolutePath = webHostEnvironment.WebRootPath + "\\files\\" + fileName;
-
-                    //3. we save the physical file on the web server
-                    using (ZipFile zip = new ZipFile())
-                    {
-                        if (!String.IsNullOrEmpty(model.Password))
-                        {
-                            zip.Password = model.Password;
-                        }
-                        zip.AddFile(absolutePath);
-                        zip.Save(fileName);
-                    }
-                    model.FilePath = @"\files\" + fileName;
+                    // add the others later
+                    ViewBag.Error = "Title should not be left empty";
+                    return View();
                 }
-                filesService.AddFileTransfer(model);
-                ViewBag.Message = "FileTransfer saved successfully";
+                else
+                {
+                    if (file != null)
+                    {
+                        string fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+                        string absolutePath = webHostEnvironment.WebRootPath + "\\files\\" + fileName;
+                        using (FileStream fs = new FileStream(absolutePath, FileMode.CreateNew, FileAccess.Write))
+                        {
+                            file.CopyTo(fs);
+                            fs.Close();
+                        }
+                        using (ZipFile zip = new ZipFile())
+                        {
+                            if (!String.IsNullOrEmpty(model.Password))
+                            {
+                                zip.Password = model.Password;
+                            }
+                            zip.AddFile(absolutePath);
+                            zip.Save("zip-" + fileName); // change name
+                        }
+                        model.FilePath = @"\files\zip-" + fileName;
+                    }
+                    filesService.AddFileTransfer(model);
+                    ViewBag.Message = "FileTransfer saved successfully";
+
+                    RestClient client = new RestClient();
+                    client.BaseUrl = new Uri("https://api.mailgun.net/v3");
+                    client.Authenticator =
+                    new HttpBasicAuthenticator("api",
+                                               "fd0eaf4bfcca4d975526149edb77dfac-1831c31e-170630e6");
+                    RestRequest request = new RestRequest();
+                    request.AddParameter("domain", "sandboxee4e22a940884c75a75afbd6573cd775.mailgun.org", ParameterType.UrlSegment);
+                    request.Resource = "{domain}/messages";
+                    request.AddParameter("from", "mailgun@sandboxee4e22a940884c75a75afbd6573cd775.mailgun.org");
+                    request.AddParameter("to", model.Email);
+                    request.AddParameter("subject", model.Title);
+                    request.AddParameter("text", model.Message);
+                    request.Method = Method.POST;
+                    client.Execute(request);
+                }
+            } catch (Exception ex)
+            {
+                ViewBag.Error = "FileTransfer was not saved - " + ex.Message;
             }
             return RedirectToAction("Create");
         }
     }
 }
-/*
-using (FileStream fs = new FileStream(absolutePath, FileMode.CreateNew, FileAccess.Write))
-{
-    file.CopyTo(fs);
-    fs.Close(); //flushes the data into the recipient file
-}*/
