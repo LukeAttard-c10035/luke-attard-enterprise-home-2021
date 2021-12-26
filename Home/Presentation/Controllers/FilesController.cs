@@ -56,12 +56,12 @@ namespace Presentation.Controllers
                         {
                             if (!String.IsNullOrEmpty(model.Password))
                             {
-                                zip.Password = model.Password;
+                                zip.Password = model.Password;  
                             }
                             zip.AddFile(absolutePath);
-                            zip.Save("zip-" + fileName); // change name
+                            zip.Save(absolutePath + ".zip");
                         }
-                        model.FilePath = @"\files\zip-" + fileName;
+                        model.FilePath = @"\files\" + fileName+".zip";
                     }
                     filesService.AddFileTransfer(model);
                     ViewBag.Message = "FileTransfer saved successfully";
@@ -78,6 +78,7 @@ namespace Presentation.Controllers
                     request.AddParameter("to", model.Email);
                     request.AddParameter("subject", model.Title);
                     request.AddParameter("text", model.Message);
+                    request.AddParameter("text", "https://" + HttpContext.Request.Host + "/" + model.FilePath);
                     request.Method = Method.POST;
                     client.Execute(request);
                 }
