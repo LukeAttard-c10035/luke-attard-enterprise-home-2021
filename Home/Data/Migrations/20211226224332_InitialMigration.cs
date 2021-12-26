@@ -57,12 +57,26 @@ namespace Data.Migrations
                     Password = table.Column<string>(nullable: true),
                     UserEmail = table.Column<string>(nullable: false),
                     Email = table.Column<string>(nullable: false),
-                    FilePath = table.Column<string>(nullable: true),
-                    Link = table.Column<string>(nullable: true)
+                    FilePath = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_FileTransfer", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Log",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserEmail = table.Column<string>(nullable: false),
+                    IP = table.Column<string>(nullable: false),
+                    Created = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Log", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -230,6 +244,9 @@ namespace Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "FileTransfer");
+
+            migrationBuilder.DropTable(
+                name: "Log");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

@@ -13,6 +13,5 @@ namespace Application.ViewModels
         public string UserEmail { get; set; }
         public string Email { get; set; }
         public string FilePath { get; set; }
-        public string Link { get; set; }
     }
 }

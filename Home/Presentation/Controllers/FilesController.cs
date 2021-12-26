@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.ViewModels;
+using Domain.Models;
 using Ionic.Zip;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -17,8 +18,10 @@ namespace Presentation.Controllers
     {
         private IFilesService filesService;
         private IWebHostEnvironment webHostEnvironment;
-        public FilesController(IFilesService _filesService, IWebHostEnvironment _webHostEnvironment)
+        private ILogService logService;
+        public FilesController(IFilesService _filesService, IWebHostEnvironment _webHostEnvironment, ILogService _logService)
         {
+            logService = _logService;
             filesService = _filesService;
             webHostEnvironment = _webHostEnvironment;
         }
@@ -84,6 +87,13 @@ namespace Presentation.Controllers
                     request.AddParameter("text", $"Password: {model.Password}");
                     request.Method = Method.POST;
                     client.Execute(request);
+
+                    Log log = new Log
+                    {
+                        IP = HttpContext.Connection.RemoteIpAddress.ToString(),
+                        UserEmail = model.UserEmail
+                    };
+                    logService.AddLog(log);
                 }
             } catch (Exception ex)
             {

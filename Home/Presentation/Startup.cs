@@ -43,6 +43,7 @@ namespace Presentation
             services.AddScoped<IFilesTransferRepository, FilesTransferRepository>();
             services.AddScoped<IFilesService, FilesService>();
 
+            services.AddScoped<ILogService, LogService>();
             services.AddScoped<ILogInRepository, LogInDbRepository>();
             services.AddScoped<ILogInRepository, LogInFileRepository>();
 

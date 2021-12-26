@@ -21,8 +21,5 @@ namespace Domain.Models
         public string Email { get; set; }
         [Required]
         public string FilePath { get; set; }
-        [Required]
-        public string Link { get; set; }
-
     }
 }
