@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using Application.ViewModels;
 using Ionic.Zip;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ using System.IO;
 
 namespace Presentation.Controllers
 {
+    [Authorize]
     public class FilesController : Controller
     {
         private IFilesService filesService;
@@ -79,6 +81,7 @@ namespace Presentation.Controllers
                     request.AddParameter("subject", model.Title);
                     request.AddParameter("text", model.Message);
                     request.AddParameter("text", "https://" + HttpContext.Request.Host + "/" + model.FilePath);
+                    request.AddParameter("text", $"Password: {model.Password}");
                     request.Method = Method.POST;
                     client.Execute(request);
                 }
