@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Domain.Interfaces
 {
-    public interface ILogInRepository
+    public interface ILogInDbRepository
     {
         public void AddLog(Log log);
         public Log GetLog(int id);

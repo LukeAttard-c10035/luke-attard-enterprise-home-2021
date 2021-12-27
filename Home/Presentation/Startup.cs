@@ -36,16 +36,28 @@ namespace Presentation
                 .AddEntityFrameworkStores<FileTransferContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
-            services.AddDbContext<FileTransferContext>(options =>
-              options.UseSqlServer(
-                  Configuration.GetConnectionString("DefaultConnection")));
+            if (Configuration.GetValue<bool>("DB")){
+                services.AddDbContext<FileTransferContext>(options =>
+                    options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+                services.AddScoped<ILogInDbService, LogInDbService>();
+                services.AddScoped<ILogInDbRepository, LogInDbRepository>();
+            }
+            else
+            {
+                services.AddDbContext<FileTransferContext>(options =>
+                    options.UseSqlServer(
+                        Configuration.GetConnectionString("FilesConnection")));
+                services.AddScoped<ILogInFilesService, LogInFilesService>();
+                services.AddScoped<ILogInFilesRepository, LogInFileRepository>();
+            }
+         
 
             services.AddScoped<IFilesTransferRepository, FilesTransferRepository>();
             services.AddScoped<IFilesService, FilesService>();
 
-            services.AddScoped<ILogService, LogService>();
-            services.AddScoped<ILogInRepository, LogInDbRepository>();
-            services.AddScoped<ILogInRepository, LogInFileRepository>();
+            
+           
 
         }
 

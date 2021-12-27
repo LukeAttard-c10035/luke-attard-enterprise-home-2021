@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Data.Repositories
 {
-    public class LogInFileRepository : ILogInRepository
+    public class LogInFileRepository : ILogInFilesRepository
     {
         private FileTransferContext context;
         public LogInFileRepository(FileTransferContext _fileTransferContext)

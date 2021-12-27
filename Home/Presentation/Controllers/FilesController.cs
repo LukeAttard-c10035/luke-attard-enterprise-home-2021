@@ -18,8 +18,8 @@ namespace Presentation.Controllers
     {
         private IFilesService filesService;
         private IWebHostEnvironment webHostEnvironment;
-        private ILogService logService;
-        public FilesController(IFilesService _filesService, IWebHostEnvironment _webHostEnvironment, ILogService _logService)
+        private ILogInDbService logService;
+        public FilesController(IFilesService _filesService, IWebHostEnvironment _webHostEnvironment, ILogInDbService _logService)
         {
             logService = _logService;
             filesService = _filesService;
@@ -40,10 +40,10 @@ namespace Presentation.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(model.Title))
+                if (!ModelState.IsValid)
                 {
                     // add the others later
-                    ViewBag.Error = "Title should not be left empty";
+                    ViewBag.Error = "Please Fille out the rest of the fields";
                     return View();
                 }
                 else
