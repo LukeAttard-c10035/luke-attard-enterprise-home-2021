@@ -31,6 +31,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\files\" />
+    <Folder Include="wwwroot\logs\" />
   </ItemGroup>
 
 </Project>

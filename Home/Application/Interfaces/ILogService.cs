@@ -2,7 +2,7 @@
 
 namespace Application.Interfaces
 {
-    public interface ILogInDbService
+    public interface ILogService
     {
         public void AddLog(Log model);
     }

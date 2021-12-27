@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Application.Services
 {
-    public class LogInDbService : ILogInDbService
+    public class LogInDbService : ILogService
     {
         private ILogInDbRepository logRepo; 
         public LogInDbService(ILogInDbRepository _logRepo)

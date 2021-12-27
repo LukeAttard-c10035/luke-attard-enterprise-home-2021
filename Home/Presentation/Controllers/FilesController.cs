@@ -18,8 +18,8 @@ namespace Presentation.Controllers
     {
         private IFilesService filesService;
         private IWebHostEnvironment webHostEnvironment;
-        private ILogInDbService logService;
-        public FilesController(IFilesService _filesService, IWebHostEnvironment _webHostEnvironment, ILogInDbService _logService)
+        private ILogService logService;
+        public FilesController(IFilesService _filesService, IWebHostEnvironment _webHostEnvironment, ILogService _logService)
         {
             logService = _logService;
             filesService = _filesService;
@@ -42,7 +42,6 @@ namespace Presentation.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    // add the others later
                     ViewBag.Error = "Please Fille out the rest of the fields";
                     return View();
                 }
@@ -91,7 +90,9 @@ namespace Presentation.Controllers
                     Log log = new Log
                     {
                         IP = HttpContext.Connection.RemoteIpAddress.ToString(),
-                        UserEmail = model.UserEmail
+                        UserEmail = model.UserEmail,
+                        Created = DateTime.Now
+                        
                     };
                     logService.AddLog(log);
                 }
