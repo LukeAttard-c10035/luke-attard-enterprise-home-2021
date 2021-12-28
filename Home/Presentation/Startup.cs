@@ -42,12 +42,12 @@ namespace Presentation
             bool isDB = Configuration.GetValue<bool>("DB");
             if (isDB){
                 services.AddScoped<ILogService, LogInDbService>();
-                services.AddScoped<ILogInDbRepository, LogInDbRepository>();
+                services.AddScoped<ILogRepository, LogInDbRepository>();
             }
             else
             {
                 services.AddScoped<ILogService, LogInFilesService>();
-                services.AddScoped<ILogInFilesRepository, LogInFileRepository>();
+                services.AddScoped<ILogRepository, LogInFileRepository>();
             }
          
 

@@ -1,11 +1,7 @@
 ﻿using Application.Interfaces;
 using Application.ViewModels;
 using Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace Application.Services
 {

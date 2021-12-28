@@ -1,34 +1,42 @@
 ﻿using Data.Context;
 using Domain.Interfaces;
 using Domain.Models;
+using Microsoft.AspNetCore.Hosting;
 using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace Data.Repositories
 {
-    public class LogInFileRepository : ILogInFilesRepository
+    public class LogInFileRepository : ILogRepository
     {
         private FileTransferContext context;
-        public LogInFileRepository(FileTransferContext _fileTransferContext)
+        private IWebHostEnvironment webHostEnvironment;
+
+        public LogInFileRepository(FileTransferContext _fileTransferContext, IWebHostEnvironment _webHostEnvironment)
         {
             context = _fileTransferContext;
+            webHostEnvironment = _webHostEnvironment;
         }
 
         public void AddLog(Log log)
         {
-            throw new NotImplementedException();
-        }
-
-        public Log GetLog(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IQueryable<Log> GetLogs()
-        {
-            throw new NotImplementedException();
+            string path = webHostEnvironment.WebRootPath + "\\logs\\logs.txt";
+            if (!File.Exists(path))
+            {
+                // Create a file to write to.
+                using (StreamWriter sw = File.CreateText(path))
+                {
+                    sw.WriteLine($"User: {log.UserEmail} IP: {log.IP} FileTransfer at: {log.Created}");
+                }
+            }
+            else
+            {
+                using (StreamWriter sw = File.AppendText(path))
+                {
+                    sw.WriteLine($"User: {log.UserEmail} IP: {log.IP} FileTransfer at: {log.Created}");
+                }
+            }
         }
     }
 }
