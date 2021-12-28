@@ -41,7 +41,7 @@ namespace Application.Services
             return model;
         }
 
-        public IQueryable<FileTransferViewModel> GetFileTransfers(string username)
+        public IQueryable<FileTransferViewModel> GetFileTransfers(string username, string web)
         {
             var list = from ft in ftRepo.GetFileTransfers()
                        where (ft.UserEmail == username) || (ft.Email == username)
@@ -50,7 +50,7 @@ namespace Application.Services
                        {
                            Id = ft.Id,
                            Title = ft.Title,
-                           FilePath = ft.FilePath,
+                           FilePath = $"http://{web}/{ft.FilePath}",
                            Password = ft.Password,
                            Email = ft.Email,
                            UserEmail = ft.UserEmail,

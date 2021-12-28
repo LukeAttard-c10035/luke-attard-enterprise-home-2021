@@ -33,7 +33,7 @@ namespace Presentation.Controllers
         public IActionResult Details(int id)
         {
             var username = HttpContext.User.Identity.Name;
-            var userTransfers = filesService.GetFileTransfers(username);
+            var userTransfers = filesService.GetFileTransfers(username, HttpContext.Request.Host.ToString());
             //return View(blog);
             return View(userTransfers);
         }
@@ -91,7 +91,7 @@ namespace Presentation.Controllers
                     request.AddParameter("to", model.Email);
                     request.AddParameter("subject", model.Title);
                     request.AddParameter("text", model.Message);
-                    request.AddParameter("text", "https://" + HttpContext.Request.Host + "/" + model.FilePath);
+                    request.AddParameter("text", "http://" + HttpContext.Request.Host + "/" + model.FilePath);
                     if (!String.IsNullOrEmpty(model.Password))
                     {
                         request.AddParameter("text", $"Password: {model.Password}");
