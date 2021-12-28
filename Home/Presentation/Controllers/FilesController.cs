@@ -30,11 +30,10 @@ namespace Presentation.Controllers
             return View();
         }
 
-        public IActionResult Details(int id)
+        public IActionResult Details()
         {
             var username = HttpContext.User.Identity.Name;
             var userTransfers = filesService.GetFileTransfers(username, HttpContext.Request.Host.ToString());
-            //return View(blog);
             return View(userTransfers);
         }
 
