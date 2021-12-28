@@ -92,7 +92,10 @@ namespace Presentation.Controllers
                     request.AddParameter("subject", model.Title);
                     request.AddParameter("text", model.Message);
                     request.AddParameter("text", "https://" + HttpContext.Request.Host + "/" + model.FilePath);
-                    request.AddParameter("text", $"Password: {model.Password}");
+                    if (!String.IsNullOrEmpty(model.Password))
+                    {
+                        request.AddParameter("text", $"Password: {model.Password}");
+                    }
                     request.Method = Method.POST;
                     client.Execute(request);
 

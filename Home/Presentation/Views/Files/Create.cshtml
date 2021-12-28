@@ -18,9 +18,7 @@
     </div>
 }
 
-<h1>Create</h1>
-
-<h4>AddFileTransferViewModel</h4>
+<h1>Send File Transfer</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -43,7 +41,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Message" class="control-label"></label>
-                <input asp-for="Message" class="form-control" />
+                <textarea asp-for="Message" class="form-control" rows="3" ></textarea>
                 <span asp-validation-for="Message" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -51,12 +49,12 @@
                 <input asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group custom-file">
                 <label asp-for="FilePath" class="control-label"></label>
                 <input type="file" class="form-control" name="file">
                 <span asp-validation-for="FilePath" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-3">
                 <input type="submit" value="Get a Link" class="btn btn-primary" />
             </div>
         </form>
@@ -64,7 +62,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Details">View your File Transfers</a>
 </div>
 
 @section Scripts {

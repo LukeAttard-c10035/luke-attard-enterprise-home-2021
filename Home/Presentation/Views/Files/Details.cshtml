@@ -4,10 +4,9 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>File Transfers</h1>
 
 <div>
-    <h4>FileTransferViewModel</h4>
     <hr />
 @foreach (var item in Model) {
     <dl class="row">
@@ -57,6 +56,5 @@
 }
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Create">Send File Transfer</a>
 </div>
