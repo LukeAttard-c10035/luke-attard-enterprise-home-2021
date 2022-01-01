@@ -90,6 +90,7 @@ namespace Presentation.Controllers
                     request.AddParameter("to", model.Email);
                     request.AddParameter("subject", model.Title);
                     request.AddParameter("text", model.Message);
+                    //request.AddParameter("text", "https://" + HttpContext.Request.Host + "/" + model.FilePath);
                     request.AddParameter("text", "http://" + HttpContext.Request.Host + "/" + model.FilePath);
                     if (!String.IsNullOrEmpty(model.Password))
                     {

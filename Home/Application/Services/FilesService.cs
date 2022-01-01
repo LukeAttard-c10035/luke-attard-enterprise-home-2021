@@ -50,6 +50,7 @@ namespace Application.Services
                        {
                            Id = ft.Id,
                            Title = ft.Title,
+                           //FilePath = $"https://{web}/{ft.FilePath}",
                            FilePath = $"http://{web}/{ft.FilePath}",
                            Password = ft.Password,
                            Email = ft.Email,
